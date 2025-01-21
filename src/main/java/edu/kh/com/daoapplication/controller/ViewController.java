@@ -2,6 +2,7 @@ package edu.kh.com.daoapplication.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -35,5 +36,23 @@ public class ViewController {
     @GetMapping("/productDetail")
     public String getProduct(@RequestParam("id") int id) {
         return "productDetail";
+    }
+
+    // 📚 책 목록 보기
+    @GetMapping("/books")
+    public String getBooks() {
+        return "books";
+    }
+
+    // 📖 특정 책 보기 (ID로 조회)
+    @GetMapping("/bookDetail")
+    public String getBookById(@RequestParam("id") int id) {
+        return "bookDetail";
+    }
+
+    // 📝 책 추가하기
+    @GetMapping("/bookSave")
+    public String getBookAdd() {
+        return "newBooks";
     }
 }

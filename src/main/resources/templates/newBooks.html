@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>책 추가하기</title>
+    <link rel="icon" href="/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<h1>책 등록</h1>
+<form id="bookForm">
+    <label for="bookName">책 제목 : </label>
+    <input type="text" id="bookName" name="bookName">
+
+    <label for="bookAuthor">저자 : </label>
+    <input type="text" id="bookAuthor" name="bookAuthor">
+
+    <label for="bookGenre">장르 : </label>
+    <input type="text" id="bookGenre" name="bookGenre">
+
+    <button type="submit">등록하기</button>
+</form>
+<script>
+    $('#bookForm').submit(function (e){
+        e.preventDefault();
+        $.ajax({
+            url: "/api/save/book",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                title: $('#bookName').val(),
+                author: $('#bookAuthor').val(),
+                genre : $('#bookGenre').val()
+            }),
+            success: function (){
+                alert("책이 성공적으로 등록되었습니다.")
+                $("#bookName").val('');
+                $("#bookAuthor").val('');
+                $("#bookGenre").val('');
+            },
+            error: function (){
+                alert("책 등록에 실패했습니다.")
+            }
+        })
+    });
+</script>
+</body>
+</html>

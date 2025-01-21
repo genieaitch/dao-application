@@ -1,13 +1,16 @@
 package edu.kh.com.daoapplication.controller;
 
-import edu.kh.com.daoapplication.dao.KHTProduct;
-import edu.kh.com.daoapplication.dao.KHTUser;
+import edu.kh.com.daoapplication.entity.KHTBook;
+import edu.kh.com.daoapplication.entity.KHTProduct;
+import edu.kh.com.daoapplication.entity.KHTUser;
+import edu.kh.com.daoapplication.service.KHTBookService;
 import edu.kh.com.daoapplication.service.KHTProductService;
 import edu.kh.com.daoapplication.service.KHTUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Book;
 import java.util.List;
 
 @Slf4j
@@ -20,6 +23,9 @@ public class ApiController {
 
     @Autowired
     private KHTProductService khtProductService;
+
+    @Autowired
+    private KHTBookService khtBookService;
 
     @GetMapping("/users") // /api/users
     public List<KHTUser> findAllUsers() {
@@ -36,13 +42,6 @@ public class ApiController {
     @GetMapping("/products") // /api/products
     public List<KHTProduct> findAllProducts() {
         return khtProductService.findAll();
-    }
-
-    @GetMapping("/products/{id}")
-    public KHTProduct findProductById(@PathVariable int id) {
-        KHTProduct khtProduct = khtProductService.findById(id);
-        log.info(khtProduct.toString());
-        return khtProductService.findById(id);
     }
 
     @PostMapping("/saveProduct") // /api/saveProduct
@@ -70,4 +69,32 @@ public class ApiController {
         return khtUserService.findById(id); // 가져온 데이터가 있든 없든 html에 전달
     }
 
+    @GetMapping("/products/{id}")
+    public KHTProduct findProductById(@PathVariable int id) {
+        KHTProduct khtProduct = khtProductService.findById(id);
+        log.info(khtProduct.toString());
+        return khtProductService.findById(id);
+    }
+
+    // 📚 모든 책 조회 API
+    @GetMapping("/books")
+    public List<KHTBook> apiBooks(){
+        List<KHTBook> books = khtBookService.findAll();
+        log.info(books.toString());
+        return khtBookService.findAll();
+    }
+
+    // 📖 특정 책 조회 API
+    @GetMapping("/book/{id}")
+    public KHTBook apiBook(@PathVariable int id) {
+        KHTBook khtBook = khtBookService.findById(id);
+        log.info(khtBook.toString());
+        return khtBookService.findById(id);
+    }
+
+    // 📝 책 저장 API
+    @PostMapping("/save/book")
+    public KHTBook apisaveBook(@RequestBody KHTBook book) {
+        return khtBookService.save(book);
+    }
 }

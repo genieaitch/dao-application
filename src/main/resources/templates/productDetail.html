@@ -49,9 +49,9 @@
                 `<h2>제품 상세 정보</h2>
                             <p><strong>제품 ID: ${product.id}</strong></p>
                             <p><strong>제품 이름: ${product.name}</strong></p>
-                            <p><strong>가격: ${product.price}</strong> 원</p>
+                            <p><strong>가격: ${Number(product.price).toLocaleString()}</strong>원</p>
                             <p><strong>설명: ${product.description}</strong></p>
-                            <p><strong>재고: ${product.stock}</strong> </p>`
+                            <p><strong>재고: ${product.stock}</strong>개</p>`
             );
         },
         error: function () {

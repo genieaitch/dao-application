@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>책 조회하기</title>
+    <link rel="icon" href="/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<h1>책 조회하기</h1>
+<div id="bookList"></div>
+<script>
+    $.ajax({
+        url: "/api/books",
+        method: "GET",
+        success: function (data){
+            $.each(data, function (index, book){
+                $('#bookList').append(`
+                <p><a href="/bookDetail?id=${book.id}"> ${book.title}</a></p>
+                `)
+            })
+        },
+        error: function (){
+            $("#bookList").html(`<p>백엔드에서 데이터를 가져오지 못했습니다.</p>`)
+        }
+    })
+</script>
+
+<button type="button" onclick="location.href='/bookSave'">책 등록하기</button>
+</body>
+</html>
