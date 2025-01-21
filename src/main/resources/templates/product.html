@@ -66,7 +66,7 @@
             productList.empty();
             $.each(data, function (index, product) {
                 $("#productList").append(`
-                        <li>상품명: ${product.name}</li>
+                        <li><a href="/productDetail?id=${product.id}">상품명: ${product.name}</a></li>
                    `);
             })
         },
@@ -94,13 +94,21 @@
     <button type="button" id="saveProductButton">제품저장</button>
 </form>
 <script>
-    $("#saveProductButton").click(function () {
+    $("#saveProductButton").click(function (e) {
+        //정규식에 일치하게 작성했는지
+        //빈칸인지 빈칸이 아닌지
+        //동일한 아이디가 존재하는지
         const product = {
             name: $("#name").val(),
             price: $("#price").val(),
             description: $("#description").val(),
             stock: $("#stock").val()
         };
+
+        if (!name || !price || !description || !stock){
+            alert("모든 필드를 입력해주세요.")
+            return; //작성안하면 제출 못하게 방지
+        }
 
         $.ajax({
             url: "api/saveProduct",

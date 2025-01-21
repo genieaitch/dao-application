@@ -22,4 +22,9 @@ public class KHTProductService {
     public KHTProduct save(KHTProduct product) {
         return khtProductRepository.save(product);
     }
+
+    // 제품 상세보기
+    public KHTProduct findById(int id) {
+        return khtProductRepository.findById(id);
+    }
 }
