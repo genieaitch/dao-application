@@ -1,10 +1,8 @@
 package edu.kh.com.daoapplication.repository;
 
-import edu.kh.com.daoapplication.entity.KHTBook;
+import edu.kh.com.daoapplication.model.entity.KHTBook;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface KHTBookRepository extends JpaRepository<KHTBook, Long> {
@@ -12,4 +10,6 @@ public interface KHTBookRepository extends JpaRepository<KHTBook, Long> {
     //아이디로 책 찾기
     KHTBook findById(int id);
 
+    // 기존에 JPA에서 만들었던 save 메서드를 변형해서 재설정
+    //KHTBook save(String title, String author, String genre, String imagePath);
 }

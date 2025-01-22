@@ -49,49 +49,51 @@
 3. div 태그 내 button type을 button 형식으로 변경하고 click 해서 데이터 저장
 -->
 <h1>📝 책 등록하기</h1>
-<div>
-    <label for="bookName">책 제목 : </label>
-    <input type="text" id="bookName" name="bookName" required placeholder="책 제목 입력">
+<div id="book">
+    <label for="title">책 제목 : </label>
+    <input id="title" placeholder="책 제목 입력" required type="text">
 
-    <label for="bookAuthor">저자 : </label>
-    <input type="text" id="bookAuthor" name="bookAuthor" required placeholder="책 저자 입력">
+    <label for="author">저자</label>
+    <input id="author" placeholder="책 저자 입력" required type="text">
 
-    <label for="bookGenre">장르 : </label>
-    <input type="text" id="bookGenre" name="bookGenre" required placeholder="책 장르 입력">
+    <label for="genre">장르</label>
+    <input id="genre" placeholder="책 장르 입력" required type="text">
 
-    <button type="submit" id="saveBook">등록하기</button>
-    <button type="button" onclick="location.href='/books'">책 목록보기</button>
+    <label for="imagePath">이미지 선택</label>
+    <input id="imagePath" required type="file">
+    <button id="saveBook" type="button">저장하기</button>
 </div>
-
 <script>
     $("#saveBook").click(function () {
-        let title = $('#bookName').val();
-        let author = $('#bookAuthor').val();
-        let genre = $('#bookGenre').val();
+        let title = $("#title").val(); // input 내 들어있는 value 값 가져오기
+        let author = $("#author").val();
+        let genre = $("#genre").val();
+
+
+        let formData = new FormData(); // 이미지 데이터를 포함해서 전달하는 기능 사용
+        formData.append("title", title);
+        formData.append("author", author);
+        formData.append("genre", genre);
+        formData.append("file",$("#imagePath")[0].files[0]); //file 컨트롤러에 저장할 이름
         $.ajax({
-            url: "/api/save/book",
+            url: "/api/bookSaveImg",
             method: "POST",
-            contentType: "application/json",
-            data: JSON.stringify({
-                title: title,
-                author: author,
-                genre: genre
-            }),
+            processData: false, //FormData 를 전송할 때 필요
+            contentType: false,//FormData 를 전송할 때 필요
+            data:formData,
             success: function () {
-                alert("책이 성공적으로 등록되었습니다.")
-                // window = 화면 창 location = 지역 href = 주소
+                alert("책이 성공적으로 저장되었습니다.");
+                // window = 화면 창  location = 지역 href = 주소
                 // 해당하는 주소 지역으로 화면을 이동한다.
-                window.location.href = "/books"; //ViewController 에서 책 목록 확인하는 api = url 주소
-                // 만약에 창 이동을 하지 않을 경우 기존에 작성한 title, author, genre 에 .val('')을 넣어 값 비우기 설정
-                $("#bookName").val('');
-                $("#bookAuthor").val('');
-                $("#bookGenre").val('');
+                window.location.href = "/books"; //ViewControll er에서 책목록 확인하는 api = url 주소
+                // 만약에 창 이동을 하지 않을 경우 기존에 작성한
+                // title, author, genre 에 .val('') 을 넣어 값 비우기 설정
             },
             error: function () {
-                alert("책 등록에 실패했습니다.")
+                alert("데이터 등록에 실패했습니다.");
             }
-        });
-    })
+        })
+    });
     /*
     $('#bookForm').submit(function (e) {
         e.preventDefault();

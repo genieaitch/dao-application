@@ -1,4 +1,4 @@
-package edu.kh.com.daoapplication.entity;
+package edu.kh.com.daoapplication.model.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,4 +25,7 @@ public class KHTUser {
     // unique = 똑같은 값을 허용할 것인가? false = 똑같은 값이 한 컬럼에 여러가지 있는 것을 OK
     @Column(unique = true, nullable = false)
     private String password;
+
+    //이미지 경로 설정
+    private String imagePath;
 }

@@ -56,25 +56,46 @@
 </head>
 <body>
 <h1>📚책 목록 조회</h1>
-<div id="bookList"></div>
-<!-- 책 목록 리스트를 작성할 예정 -->
+<!--<div id="bookList"></div>
+ 책 목록 리스트를 작성할 예정 -->
+
+<table class="books-table">
+    <thead>
+    <tr> <!-- id 값을 tr 위 설정 append-->
+        <th>ID</th>
+        <th>제목</th>
+        <th>저자</th>
+        <th>장르</th>
+        <th>이동하기</th>
+    </tr>
+    </thead>
+    <tbody id="books">
+    </tbody>
+</table>
+<button type="button" onclick="location.href='/bookSave'">책 등록하기</button>
 <script>
     $.ajax({
         url: "/api/books",
-        method: "GET",
-        success: function (data){
-            $.each(data, function (index, book){
-                $('#bookList').append(`
-                <p><a href="/bookDetail?id=${book.id}"> ${book.title}</a></p>
-                `)
-            })
-        },
-        error: function (){
-            $("#bookList").html(`<p>백엔드에서 데이터를 가져오지 못했습니다.</p>`)
-        }
+        method: "GET", // type(old version) method(new version)
+        success:
+            function (data) {
+                $.each(data, function (index, value) {
+                    $("#books").append(
+                        `
+                <!-- <p><a href="/bookDetail?id=${book.id}"> ${book.title}</a></p> -->
+                           <tr>
+                              <th>${value.id}</th>
+                              <th>${value.title}</th>
+                              <th>${value.author}</th>
+                              <th>${value.genre}</th>
+                              <th><a href="/book?id=${value.id}">이동</a></th>
+                          </tr>
+                          `
+                    )
+                })
+            }
     })
 </script>
 
-<button type="button" onclick="location.href='/bookSave'">책 등록하기</button>
 </body>
 </html>

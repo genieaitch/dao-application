@@ -61,6 +61,7 @@
         success: function (book){
             $("#bookTitle").html(`📖${book.title} 정보`);
             $("#bookDetails").html(`
+            <img src="${book.imagePath}">
             <P><strong>책 제목 : </strong>${book.title}</P>
             <P><strong>저자 : </strong>${book.author}</P>
             <P><strong>장르 : </strong>${book.genre}</P>
