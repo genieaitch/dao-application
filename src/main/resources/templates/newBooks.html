@@ -3,26 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>책 추가하기</title>
+    <title>책 등록하기</title>
     <link rel="icon" href="/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        body {
+            margin: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input {
+            margin: 5px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 <body>
-<h1>책 등록</h1>
-<form id="bookForm">
+<!--
+1. form 태그를 이용해서 form 태그 내에 작성한 id 값으로 submit 해서 데이터 저장
+2. form 태그 내 button type을 button 형식으로 변경하고 click 해서 데이터 저장
+3. div 태그 내 button type을 button 형식으로 변경하고 click 해서 데이터 저장
+-->
+<h1>📝 책 등록하기</h1>
+<div>
     <label for="bookName">책 제목 : </label>
-    <input type="text" id="bookName" name="bookName">
+    <input type="text" id="bookName" name="bookName" required placeholder="책 제목 입력">
 
     <label for="bookAuthor">저자 : </label>
-    <input type="text" id="bookAuthor" name="bookAuthor">
+    <input type="text" id="bookAuthor" name="bookAuthor" required placeholder="책 저자 입력">
 
     <label for="bookGenre">장르 : </label>
-    <input type="text" id="bookGenre" name="bookGenre">
+    <input type="text" id="bookGenre" name="bookGenre" required placeholder="책 장르 입력">
 
-    <button type="submit">등록하기</button>
-</form>
+    <button type="submit" id="saveBook">등록하기</button>
+    <button type="button" onclick="location.href='/books'">책 목록보기</button>
+</div>
+
 <script>
-    $('#bookForm').submit(function (e){
+    $("#saveBook").click(function () {
+        let title = $('#bookName').val();
+        let author = $('#bookAuthor').val();
+        let genre = $('#bookGenre').val();
+        $.ajax({
+            url: "/api/save/book",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                title: title,
+                author: author,
+                genre: genre
+            }),
+            success: function () {
+                alert("책이 성공적으로 등록되었습니다.")
+                // window = 화면 창 location = 지역 href = 주소
+                // 해당하는 주소 지역으로 화면을 이동한다.
+                window.location.href = "/books"; //ViewController 에서 책 목록 확인하는 api = url 주소
+                // 만약에 창 이동을 하지 않을 경우 기존에 작성한 title, author, genre 에 .val('')을 넣어 값 비우기 설정
+                $("#bookName").val('');
+                $("#bookAuthor").val('');
+                $("#bookGenre").val('');
+            },
+            error: function () {
+                alert("책 등록에 실패했습니다.")
+            }
+        });
+    })
+    /*
+    $('#bookForm').submit(function (e) {
         e.preventDefault();
         $.ajax({
             url: "/api/save/book",
@@ -31,19 +102,20 @@
             data: JSON.stringify({
                 title: $('#bookName').val(),
                 author: $('#bookAuthor').val(),
-                genre : $('#bookGenre').val()
+                genre: $('#bookGenre').val()
             }),
-            success: function (){
+            success: function () {
                 alert("책이 성공적으로 등록되었습니다.")
                 $("#bookName").val('');
                 $("#bookAuthor").val('');
                 $("#bookGenre").val('');
             },
-            error: function (){
+            error: function () {
                 alert("책 등록에 실패했습니다.")
             }
         })
-    });
+    });*/
 </script>
+
 </body>
 </html>

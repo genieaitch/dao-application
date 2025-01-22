@@ -78,7 +78,7 @@ public class ApiController {
 
     // 📚 모든 책 조회 API
     @GetMapping("/books")
-    public List<KHTBook> apiBooks(){
+    public List<KHTBook> Books(){
         List<KHTBook> books = khtBookService.findAll();
         log.info(books.toString());
         return khtBookService.findAll();
@@ -86,7 +86,7 @@ public class ApiController {
 
     // 📖 특정 책 조회 API
     @GetMapping("/book/{id}")
-    public KHTBook apiBook(@PathVariable int id) {
+    public KHTBook Book(@PathVariable int id) {
         KHTBook khtBook = khtBookService.findById(id);
         log.info(khtBook.toString());
         return khtBookService.findById(id);
@@ -94,7 +94,7 @@ public class ApiController {
 
     // 📝 책 저장 API
     @PostMapping("/save/book")
-    public KHTBook apisaveBook(@RequestBody KHTBook book) {
+    public KHTBook saveBook(@RequestBody KHTBook book) {
         return khtBookService.save(book);
     }
 }
